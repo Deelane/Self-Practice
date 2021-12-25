@@ -1,8 +1,17 @@
 These are programs that I have done for my own practice. Problems are either found on the internet or my own implementation of existing algorithms.
 
+removeIslands - 
+  Attempt at Medium Google Coding Interview With Ben Awad by Clément Mihailescu
+  https://www.youtube.com/watch?v=4tYoVx0QoN0
+  Program:
+    Removes "islands" in a binary matrix using DFS. Islands are considered as 1s that are not connected to any border 1s.
+  Done in C++
+  
 blockRequirements - 
   Attempt at "Google Coding Interview With A Normal Software Engineer" by Clément Mihailescu
   https://www.youtube.com/watch?v=rw4s4M3hFfs
+  Program:
+    Finds the house in a block of houses that is satifies the list of required amenities (buildings) with the shortest distance.
   Done in C++
 
 dijkstrasAlgorithm - 
