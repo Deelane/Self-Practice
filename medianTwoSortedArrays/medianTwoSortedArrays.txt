@@ -1,0 +1,78 @@
+#include <limits>
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) 
+    {
+        //ensure nums1 is the smaller array
+        if (nums2.size() < nums1.size())
+        {
+            return findMedianSortedArrays(nums2, nums1);
+        }
+        
+        int sizeX = nums1.size();
+        int sizeY = nums2.size();
+        
+        //start and end for partitionX
+        int start = 0;
+        int end = sizeX;
+        
+        //repeatedly manipulate start and end to find the correct partition position for nums1 and nums2    
+        while (start <= end)
+        {
+            //both arrays must be partitioned into equal parts such that
+            //the sum of the amount of numbers on the left of partitionX and partitionY 
+            //equals the sum of the amount of numbers on the right of partitionX and partitionY
+            //when the sum of both array sizes is odd, the left sum will have one more value than the right
+            int partitionX = (start + end) / 2;
+            int partitionY = ((sizeX + sizeY + 1) / 2) - partitionX;
+            
+            //Find the max value in the left partition and the minimum value in the right partition of both arrays
+            //Compare the values to see if we are in the correct partition position to calculate the median
+            
+            //edge case
+            //nums1 was partitioned into an array with 0 values on the left
+            //compiler is throwing an issue with INFINITY so just using max int for now
+            int maxLeftX = (partitionX == 0) ? -2147483647 : nums1[partitionX - 1];
+            //nums1 was partitioned into an array with 0 values on the right
+            int minRightX = (partitionX == sizeX) ? 2147483647 : nums1[partitionX];
+            
+            int maxLeftY = (partitionY == 0) ? -2147483647 : nums2[partitionY - 1];
+            //nums1 was partitioned into an array with 0 values on the right
+            int minRightY = (partitionY == sizeY) ? 2147483647 : nums2[partitionY];
+            
+            //If our arrays are partitioned correctly, the greatest value on the left of partitionX being less than or equal to 
+            //the smallest value on the right of partitionY means that all values to the left of partitionX 
+            //are less than all of the values to the right of partitionY since the array is sorted
+            //similarly, if the greatest value on the left of partitionY is less than the smallest value on the right of partitionX,
+            //then all values on the left of partitionY are less than all the values on the right of partitionX
+            //this means that our median is the largest value on the left of all partitions for odd array size sums,
+            //and the average of the largest left value and smallest right value of all partitions for even array size sums
+            
+            //we found the partition
+            if (maxLeftX <= minRightY && maxLeftY <= minRightX)
+            {
+                //even sum of sizes
+                //return the average of the largest left value and smallest right value of both partitions
+                if ((sizeX + sizeY) % 2 == 0)
+                {
+                    return (double) (max(maxLeftX, maxLeftY) + min(minRightX, minRightY)) / 2;
+                }
+                //odd sum of sizes
+                //return largest left partition value
+                return (double) max(maxLeftX, maxLeftY);
+            }
+            //our value in the left of partitionX is greater than the min on the right of partitionY, so we need to move partitionX left
+            //we do this by decreasing partitionX by 1 and setting it as our new end
+            else if (maxLeftX > minRightY)
+            {
+                end = partitionX - 1;
+            }
+            //maxLeftY is greater than minRightX, so we need to move partitionX right
+            else
+            {
+                start = partitionX + 1;
+            }
+        }
+        throw std::invalid_argument("Arrays must be sorted");
+    }
+};
