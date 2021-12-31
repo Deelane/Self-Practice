@@ -1,0 +1,36 @@
+#include <unordered_map>
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) 
+    {
+        
+        if (s.length() == 0)
+        {
+            return 0;
+        }
+        //dictionary for all possible input characters (128 ASCII characters)
+        //initialized to -1 to mark them as unvisited
+        vector<int> dict (128, -1);
+        //signifies the starting point of the current longest substring, uses an offset for math purposes
+        int stringStart = -1;
+        int maxLength = 0;
+        for (int i = 0, length = s.length(); i < length; i++)
+        {
+            //dict[i] will always hold the last index of a char's position in the string
+            //for example, in "abcabc", the value "c" will be 2 on its first visit (i = 2) and 5 on its second visit (i = 5)
+            //stringStart will be less than this value if the char has not been visited
+            //what is larger, the index (value) of the current char's last appearance or the length of the current string
+            //only values of -1 (unvisited) will increase maxLength
+            if (stringStart < dict[s[i]])
+            {
+                stringStart = dict[s[i]];
+            }
+            //update the index/value the current char was last visited at
+            dict[s[i]] = i;
+            //stringStart will forever increment if a string does not produce any new unique chars
+            //subtracting the current index from stringStart (starting point of the previous string) will give us the length of the current string
+            maxLength = max(maxLength, i - stringStart);
+        }
+        return maxLength;
+    }
+};
