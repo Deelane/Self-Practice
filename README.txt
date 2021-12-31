@@ -29,3 +29,13 @@ radixSort -
 KMPAlgorithm - 
   Implementation of KMP string matching algorithm. Program generates a random string and pattern from a given set of chars and shows how many times the pattern appears in the string.
   Done in C++
+  
+longestSubStringNoRepeat - 
+  https://leetcode.com/problems/longest-substring-without-repeating-characters/
+  Done in C++
+  
+medianTwoSortedArrays - 
+  https://leetcode.com/problems/median-of-two-sorted-arrays/
+  Done in C++
+  
+  
